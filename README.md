@@ -1,2 +1,2 @@
 # go-api
-Basic REST api writting in Go
+Basic REST api implemented in Go
