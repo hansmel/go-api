@@ -9,8 +9,8 @@ import (
 func RegisterControllers() {
 	uc := newUserController()
 
-	http.Handle("/users2", *uc)
-	http.Handle("/users2/", *uc)
+	http.Handle("/users", *uc)
+	http.Handle("/users/", *uc)
 }
 
 func encodeResponseAsJSON(data interface{}, w io.Writer) {
