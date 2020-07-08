@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"encoding/json"
 	"net/http"
 	"regexp"
@@ -48,10 +49,12 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) getAll(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Http GET (all)")
 	encodeResponseAsJSON(models.GetUsers(), w)
 }
 
 func (uc *userController) get(id int, w http.ResponseWriter) {
+	fmt.Println("Http GET (by id)")
 	u, err := models.GetUserByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -61,6 +64,7 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 }
 
 func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Http PUT")
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -98,6 +102,7 @@ func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) delete(id int, w http.ResponseWriter) {
+	fmt.Println("Http DELETE")
 	err := models.RemoveUserById(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
