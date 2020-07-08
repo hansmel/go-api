@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/pluralsight/webservice/fileio"
 	"fmt"
 	"encoding/json"
 	"net/http"
@@ -77,6 +78,7 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 		return
 	}
+	fileio.FileWriter(u)
 	encodeResponseAsJSON(u, w)
 }
 
@@ -103,7 +105,7 @@ func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) delete(id int, w http.ResponseWriter) {
 	fmt.Println("Http DELETE")
-	err := models.RemoveUserById(id)
+	err := models.RemoveUserByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
