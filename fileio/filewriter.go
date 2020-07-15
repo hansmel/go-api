@@ -1,25 +1,27 @@
 package fileio
 
 import (
-	"os"
+	"encoding/json"
 	"fmt"
+	"os"
 
 	"hanmel.com/webservice/models"
 )
 
-// FileWriter writes user data to file
-func FileWriter(user models.User) {
-	fmt.Println("Filewriter")
+// WriteUsers writes several users to file
+func WriteUsers(users []models.User, filename string) {
 
-	f, err := os.Create("users.txt")
+	f, err := os.Create(filename)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	_, err = f.WriteString(user.FirstName + " " + user.LastName + "\n")
-	if err != nil {
-		fmt.Println(err)
+	jsonusers, _ := json.MarshalIndent(users, "", "   ")
+	_, err2 := f.Write(jsonusers)
+
+	if err2 != nil {
+		fmt.Println(err2)
 		f.Close()
 		return
 	}
@@ -29,7 +31,5 @@ func FileWriter(user models.User) {
 		fmt.Println(err)
 		return
 	}
-
-	fmt.Println(user)
 }
 
