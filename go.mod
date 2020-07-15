@@ -1,3 +1,3 @@
-module github.com/pluralsight/webservice
+module hanmel.com/webservice
 
 go 1.12

@@ -1,14 +1,14 @@
 package controllers
 
 import (
-	"github.com/pluralsight/webservice/fileio"
 	"fmt"
 	"encoding/json"
 	"net/http"
 	"regexp"
 	"strconv"
 
-	"github.com/pluralsight/webservice/models"
+	"hanmel.com/webservice/fileio"
+	"hanmel.com/webservice/models"
 )
 
 type userController struct {

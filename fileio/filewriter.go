@@ -4,7 +4,7 @@ import (
 	"os"
 	"fmt"
 
-	"github.com/pluralsight/webservice/models"
+	"hanmel.com/webservice/models"
 )
 
 // FileWriter writes user data to file
