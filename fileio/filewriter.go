@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"os"
 
-	"hanmel.com/webservice/models"
+	//"hanmel.com/webservice/models"
 )
 
 // WriteUsers writes several users to file
-func WriteUsers(users []models.User, filename string) {
+//func WriteUsers(users []*models.User, filename string) {
+	func WriteUsers(users interface{}, filename string) {
 
 	f, err := os.Create(filename)
 	if err != nil {

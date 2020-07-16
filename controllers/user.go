@@ -84,9 +84,11 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 }
 
 func writeUsersToFile() {
-    users := []models.User { 
-		{ID: 0, FirstName : "Kent", LastName : "Brosk" },
-		{ID: 1, FirstName : "Rusty", LastName : "Bassdrum" }}
+	//var users []*models.User
+	users := models.GetUsers
+    // users2 := []models.User { 
+	// 	{ID: 0, FirstName : "Kent", LastName : "Brosk" },
+	// 	{ID: 1, FirstName : "Rusty", LastName : "Bassdrum" }}
 	filename := "users.json"
 	fileio.WriteUsers(users, filename)
 }
