@@ -22,6 +22,11 @@ func GetUsers() []*User {
 	return users
 }
 
+// SetUsers returns all users
+func SetUsers(theUsers []*User) {
+	users = theUsers
+}
+
 // AddUser adds a user to the list of users
 func AddUser(u User) (User, error) {
 	fmt.Println("models.AddUser")

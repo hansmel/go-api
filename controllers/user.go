@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -78,19 +78,8 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 		return
 	}
-	
-    writeUsersToFile()
+	fileio.WriteUsers(models.GetUsers())
 	encodeResponseAsJSON(u, w)
-}
-
-func writeUsersToFile() {
-	//var users []*models.User
-	users := models.GetUsers
-    // users2 := []models.User { 
-	// 	{ID: 0, FirstName : "Kent", LastName : "Brosk" },
-	// 	{ID: 1, FirstName : "Rusty", LastName : "Bassdrum" }}
-	filename := "users.json"
-	fileio.WriteUsers(users, filename)
 }
 
 func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
@@ -111,6 +100,7 @@ func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 		return
 	}
+	fileio.WriteUsers(models.GetUsers())
 	encodeResponseAsJSON(u, w)
 }
 
@@ -122,6 +112,7 @@ func (uc *userController) delete(id int, w http.ResponseWriter) {
 		w.Write([]byte(err.Error()))
 		return
 	}
+	fileio.WriteUsers(models.GetUsers())
 	w.WriteHeader(http.StatusOK)
 }
 
