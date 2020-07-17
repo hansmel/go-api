@@ -10,7 +10,7 @@ import (
 )
 
 // UserFilename is the name of the file where the user data is stored
-var UserFilename = "users.json"
+var UserFilename = "/mnt/users.json"
 
 // WriteUsers writes several users to file in json format
 func WriteUsers(users []*models.User) {
