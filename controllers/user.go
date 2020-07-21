@@ -65,7 +65,7 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 }
 
 func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Http PUT")
+	fmt.Println("Http POST")
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -83,6 +83,7 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Http PUT")
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
