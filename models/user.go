@@ -22,9 +22,12 @@ func GetUsers() []*User {
 	return users
 }
 
-// SetUsers returns all users
-func SetUsers(theUsers []*User) {
-	users = theUsers
+// InitUsers initialize the user model state
+func InitUsers(theUsers []*User) {
+	if len(theUsers) > 0 {
+		users = theUsers
+		nextID = theUsers[len(theUsers)-1].ID + 1
+	}
 }
 
 // AddUser adds a user to the list of users

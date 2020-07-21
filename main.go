@@ -15,7 +15,7 @@ func main() {
 
 	// Populate users from file
 	users := fileio.ReadUserFile()
-	models.SetUsers(users)
+	models.InitUsers(users)
 
 	controllers.RegisterControllers()
 	http.ListenAndServe(":3000", nil)
