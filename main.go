@@ -8,6 +8,8 @@ import (
 
 	"hanmel.com/webservice/controllers"
 	"hanmel.com/webservice/fileio"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -16,6 +18,9 @@ func main() {
 	// Populate users from file
 	users := fileio.ReadUserFile()
 	models.InitUsers(users)
+
+    // Prometheus metrics
+	http.Handle("/metrics", promhttp.Handler())
 
 	controllers.RegisterControllers()
 	http.ListenAndServe(":3000", nil)
