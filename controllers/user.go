@@ -78,6 +78,7 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 
 func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http POST")
+	httpRequestTotal.With(prometheus.Labels{"path": r.URL.Path, "method": "POST"}).Inc()
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
