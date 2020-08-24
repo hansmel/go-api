@@ -14,15 +14,13 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
-var getAll = promauto.NewCounter(prometheus.CounterOpts{
-	Name: "webservice_get_all",
-	Help: "The total number of times the 'get all' endpoint was called.",
-})
-
-var post = promauto.NewCounter(prometheus.CounterOpts{
-	Name: "webservice_post",
-	Help: "The total number of times the 'post' enpoint was called.",
-})
+var httpRequestTotal = promauto.NewCounterVec(
+	prometheus.CounterOpts{
+		Name: "webservice_http_requests_total",
+		Help: "The total number of http requests.",
+	},
+	[]string{"path", "method"},
+)
 
 type userController struct {
 	userIDPattern *regexp.Regexp
@@ -64,7 +62,7 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) getAll(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http GET (all)")
-	getAll.Inc()
+	httpRequestTotal.With(prometheus.Labels{"path": r.URL.Path, "method": "GETALL"}).Inc()
 	encodeResponseAsJSON(models.GetUsers(), w)
 }
 
@@ -80,8 +78,6 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 
 func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http POST")
-	post.Inc()
-
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
