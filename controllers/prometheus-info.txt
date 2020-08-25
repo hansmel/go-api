@@ -1,0 +1,28 @@
+# info by label
+webservice_http_requests_total
+Element 	Value
+webservice_http_requests_total{instance="192.168.1.57:3000",job="webservice",method="GETALL",path="/users"}	4
+webservice_http_requests_total{instance="192.168.1.57:3000",job="webservice",method="POST",path="/users"}	4
+
+# sum over all labels
+sum(webservice_http_requests_total) 
+Element 	Value
+{}	8
+
+# ignore labels
+sum without(path) (webservice_http_requests_total)
+Element 	Value
+{instance="192.168.1.57:3000",job="webservice",method="GETALL"}	4
+{instance="192.168.1.57:3000",job="webservice",method="POST"}	4
+
+sum without(method) (webservice_http_requests_total)
+Element 	Value
+{instance="192.168.1.57:3000",job="webservice",path="/users"}	8
+
+sum without(method, path) (webservice_http_requests_total)
+Element 	Value
+{instance="192.168.1.57:3000",job="webservice"}	8
+
+sum without(method, path, job) (webservice_http_requests_total)
+Element 	Value
+{instance="192.168.1.57:3000"}	8
