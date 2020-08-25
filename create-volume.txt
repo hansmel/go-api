@@ -1,3 +1,0 @@
-## Docker volume location on Docker Desktop for Windows: C:\Users\Gray\AppData\Local\Docker\wsl\data\ext4.vhdx
-
-docker volume create --driver local --label my-label=my-label-value web-api-volume 

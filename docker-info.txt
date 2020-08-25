@@ -1,0 +1,12 @@
+## Docker volume location on Docker Desktop for Windows: C:\Users\Gray\AppData\Local\Docker\wsl\data\ext4.vhdx
+
+## create volume
+docker volume create --driver local --label my-label=my-label-value web-api-volume
+
+## bind mount volume
+docker run -d --name webservice --mount type=bind,source=c:\tmp\web-api,target=/mnt/web-api -p 3000:3000 webservice
+
+## volume mount volume
+docker run -d --name webservice --mount type=volume,source=web-api-volume,target=/mnt/web-api -p 3000:3000 webservice
+# or (type=volume is default)
+docker run -d --name webservice --mount source=web-api-volume,target=/mnt/web-api -p 3000:3000 webservice

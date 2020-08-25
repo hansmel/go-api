@@ -1,1 +1,0 @@
-docker run -d --name webservice --mount type=bind,source=c:\tmp\web-api,target=/mnt/web-api -p 3000:3000 webservice
