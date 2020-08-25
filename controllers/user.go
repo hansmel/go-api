@@ -47,6 +47,7 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
+
 		switch r.Method {
 		case http.MethodGet:
 			uc.get(id, w)
@@ -62,13 +63,13 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) getAll(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http GET (all)")
-	httpRequestTotal.With(prometheus.Labels{"path": r.URL.Path, "method": r.Method}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "GETALL"}).Inc()
 	encodeResponseAsJSON(models.GetUsers(), w)
 }
 
 func (uc *userController) get(id int, w http.ResponseWriter) {
 	fmt.Println("Http GET (by id)")
-	httpRequestTotal.With(prometheus.Labels{"path": r.URL.Path, "method": r.Method}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "GET"}).Inc()
 	u, err := models.GetUserByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -79,7 +80,7 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 
 func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http POST")
-	httpRequestTotal.With(prometheus.Labels{"path": r.URL.Path, "method": r.Method}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "POST"}).Inc()
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -98,7 +99,7 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http PUT")
-	httpRequestTotal.With(prometheus.Labels{"path": r.URL.Path, "method": r.Method}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "PUT"}).Inc()
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -122,7 +123,7 @@ func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) delete(id int, w http.ResponseWriter) {
 	fmt.Println("Http DELETE")
-	httpRequestTotal.With(prometheus.Labels{"path": r.URL.Path, "method": r.Method}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "DELETE"}).Inc()
 	err := models.RemoveUserByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
