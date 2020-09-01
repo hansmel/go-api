@@ -12,6 +12,8 @@ import (
 // UserFilename is the name of the file where the user data is stored
 var UserFilename = "/mnt/web-api/users.json"
 
+// var UserFilename = "/Users/grey/dev/mnt/web-api/users.json"
+
 // WriteUsers writes several users to file in json format
 func WriteUsers(users []*models.User) {
 	f, err := os.Create(UserFilename)
@@ -32,7 +34,7 @@ func WriteUsers(users []*models.User) {
 		fmt.Println(err)
 		return
 	}
-	printUsers(users)
+	// printUsers(users)
 }
 
 func printUsers(users []*models.User) {
