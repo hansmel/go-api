@@ -26,8 +26,8 @@ var httpRequestTotal = promauto.NewCounterVec(
 
 var httpRequestLatency = promauto.NewGaugeVec(
 	prometheus.GaugeOpts{
-		Name: "webservice_http_requests_latency",
-		Help: "The latency for the the http requests.",
+		Name: "webservice_http_request_duration_seconds",
+		Help: "The duration for the http request.",
 	},
 	[]string{"path", "method"},
 )
