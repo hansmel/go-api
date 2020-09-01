@@ -3,9 +3,11 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 
 	"hanmel.com/webservice/fileio"
 	"hanmel.com/webservice/models"
@@ -27,6 +29,7 @@ type userController struct {
 }
 
 func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
 	if r.URL.Path == "/users" {
 		switch r.Method {
 		case http.MethodGet:
@@ -59,6 +62,14 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotImplemented)
 		}
 	}
+	// Simulate request latency
+	time.Sleep(time.Duration(rand.Intn(125)) * time.Millisecond)
+
+	elapsed := time.Since(start)
+	fmt.Printf("Request took %s\n", elapsed)
+	fmt.Printf("Request took %d microseconds\n", elapsed.Microseconds())
+	elapsedSeconds := float64(elapsed.Microseconds()) / 1000000
+	fmt.Printf("Request took %f seconds\n", elapsedSeconds)
 }
 
 func (uc *userController) getAll(w http.ResponseWriter, r *http.Request) {
