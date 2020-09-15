@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -48,7 +49,7 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	start = time.Now()
 
 	// Simulate request latency
-	// time.Sleep(time.Duration(rand.Intn(125)) * time.Millisecond)
+	time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 
 	if r.URL.Path == "/users" {
 		switch r.Method {
