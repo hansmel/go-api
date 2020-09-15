@@ -31,6 +31,13 @@ var httpRequestLatency = promauto.NewGaugeVec(
 	[]string{"path", "method"},
 )
 
+var httpRequestDurationsHistogram = promauto.NewHistogram(
+	prometheus.HistogramOpts{
+		Name: "webservice_http_request_duration_histogram_seconds",
+		Help: "The request durations histogram",
+	},
+)
+
 type userController struct {
 	userIDPattern *regexp.Regexp
 }
@@ -89,6 +96,7 @@ func (uc *userController) getAll(w http.ResponseWriter, r *http.Request) {
 	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "GETALL"}).Inc()
 	elapsedSeconds := float64(time.Since(start).Microseconds()) / 1000000
 	httpRequestLatency.With(prometheus.Labels{"path": "/users", "method": "GETALL"}).Set(elapsedSeconds)
+	httpRequestDurationsHistogram.Observe(elapsedSeconds)
 	encodeResponseAsJSON(models.GetUsers(), w)
 }
 
