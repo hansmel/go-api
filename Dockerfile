@@ -1,4 +1,4 @@
-FROM golang:latest as builder
+FROM golang:1.14 as builder
 
 RUN go get github.com/prometheus/client_golang/prometheus \
 github.com/prometheus/client_golang/prometheus/promauto \
