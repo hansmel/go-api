@@ -1,5 +1,4 @@
 users.json
-go.sum
 main
 # Binaries for programs and plugins
 *.exe
