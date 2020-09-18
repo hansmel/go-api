@@ -1,8 +1,8 @@
 FROM golang:1.14 as builder
 
-RUN go get github.com/prometheus/client_golang/prometheus \
-github.com/prometheus/client_golang/prometheus/promauto \
-github.com/prometheus/client_golang/prometheus/promhttp
+# RUN go get github.com/prometheus/client_golang/prometheus \
+# github.com/prometheus/client_golang/prometheus/promauto \
+# github.com/prometheus/client_golang/prometheus/promhttp
 
 WORKDIR /app
 
