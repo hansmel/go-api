@@ -11,8 +11,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
-func main() {
 
+func main() {
 
 	fmt.Println("Starting program!")
 
