@@ -1,4 +1,4 @@
-FROM golang:1.14 as builder
+FROM golang:1.15 as builder
 
 # Add Maintainer Info
 LABEL maintainer="hanmel@home.com"
@@ -16,11 +16,12 @@ RUN go mod download
 COPY . ./
 
 # Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o web .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o web .
 
 # stage 2
 
-FROM ubuntu:18.04
+# FROM ubuntu:18.04
+FROM scratch
 
 WORKDIR /app
 
