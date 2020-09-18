@@ -3,10 +3,6 @@ FROM golang:1.14 as builder
 # Add Maintainer Info
 LABEL maintainer="hanmel@home.com"
 
-# RUN go get github.com/prometheus/client_golang/prometheus \
-# github.com/prometheus/client_golang/prometheus/promauto \
-# github.com/prometheus/client_golang/prometheus/promhttp
-
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
