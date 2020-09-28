@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -17,24 +18,25 @@ import (
 
 var httpRequestTotal = promauto.NewCounterVec(
 	prometheus.CounterOpts{
-		Name: "webservice_http_requests_total",
+		Name: "http_requests_total",
 		Help: "The total number of http requests.",
 	},
-	[]string{"path", "method"},
+	[]string{"handler", "method"},
 )
 
-var httpRequestLatency = promauto.NewGaugeVec(
+var httpRequestDuration = promauto.NewGaugeVec(
 	prometheus.GaugeOpts{
-		Name: "webservice_http_request_duration_seconds",
+		Name: "http_request_duration_seconds",
 		Help: "The duration for the http request.",
 	},
-	[]string{"path", "method"},
+	[]string{"handler", "method"},
 )
 
 var httpRequestDurationsHistogram = promauto.NewHistogram(
 	prometheus.HistogramOpts{
-		Name: "webservice_http_request_duration_histogram_seconds",
-		Help: "The request durations histogram",
+		Name:    "http_request_duration_histogram_seconds",
+		Help:    "The request durations histogram",
+		Buckets: prometheus.DefBuckets,
 	},
 )
 
@@ -48,7 +50,7 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	start = time.Now()
 
 	// Simulate request latency
-	// time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+	time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 
 	if r.URL.Path == "/users" {
 		switch r.Method {
@@ -93,18 +95,18 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) getAll(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http GET (all)")
-	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "GETALL"}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"handler": "/users", "method": "GETALL"}).Inc()
 	elapsedSeconds := float64(time.Since(start).Microseconds()) / 1000000
-	httpRequestLatency.With(prometheus.Labels{"path": "/users", "method": "GETALL"}).Set(elapsedSeconds)
+	httpRequestDuration.With(prometheus.Labels{"handler": "/users", "method": "GETALL"}).Set(elapsedSeconds)
 	httpRequestDurationsHistogram.Observe(elapsedSeconds)
 	encodeResponseAsJSON(models.GetUsers(), w)
 }
 
 func (uc *userController) get(id int, w http.ResponseWriter) {
 	fmt.Println("Http GET (by id)")
-	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "GET"}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"handler": "/users", "method": "GET"}).Inc()
 	elapsedSeconds := float64(time.Since(start).Microseconds()) / 1000000
-	httpRequestLatency.With(prometheus.Labels{"path": "/users", "method": "GET"}).Set(elapsedSeconds)
+	httpRequestDuration.With(prometheus.Labels{"handler": "/users", "method": "GET"}).Set(elapsedSeconds)
 	u, err := models.GetUserByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -115,9 +117,9 @@ func (uc *userController) get(id int, w http.ResponseWriter) {
 
 func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http POST")
-	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "POST"}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"handler": "/users", "method": "POST"}).Inc()
 	elapsedSeconds := float64(time.Since(start).Microseconds()) / 1000000
-	httpRequestLatency.With(prometheus.Labels{"path": "/users", "method": "POST"}).Set(elapsedSeconds)
+	httpRequestDuration.With(prometheus.Labels{"handler": "/users", "method": "POST"}).Set(elapsedSeconds)
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -136,9 +138,9 @@ func (uc *userController) post(w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Http PUT")
-	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "PUT"}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"handler": "/users", "method": "PUT"}).Inc()
 	elapsedSeconds := float64(time.Since(start).Microseconds()) / 1000000
-	httpRequestLatency.With(prometheus.Labels{"path": "/users", "method": "PUT"}).Set(elapsedSeconds)
+	httpRequestDuration.With(prometheus.Labels{"handler": "/users", "method": "PUT"}).Set(elapsedSeconds)
 	u, err := uc.parseRequest(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -162,9 +164,9 @@ func (uc *userController) put(id int, w http.ResponseWriter, r *http.Request) {
 
 func (uc *userController) delete(id int, w http.ResponseWriter) {
 	fmt.Println("Http DELETE")
-	httpRequestTotal.With(prometheus.Labels{"path": "/users", "method": "DELETE"}).Inc()
+	httpRequestTotal.With(prometheus.Labels{"handler": "/users", "method": "DELETE"}).Inc()
 	elapsedSeconds := float64(time.Since(start).Microseconds()) / 1000000
-	httpRequestLatency.With(prometheus.Labels{"path": "/users", "method": "DELETE"}).Set(elapsedSeconds)
+	httpRequestDuration.With(prometheus.Labels{"handler": "/users", "method": "DELETE"}).Set(elapsedSeconds)
 	err := models.RemoveUserByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
