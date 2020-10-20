@@ -34,9 +34,10 @@ var httpRequestDuration = promauto.NewGaugeVec(
 
 var httpRequestDurationsHistogram = promauto.NewHistogram(
 	prometheus.HistogramOpts{
-		Name:    "http_request_duration_histogram_seconds",
-		Help:    "The request durations histogram",
-		Buckets: prometheus.DefBuckets,
+		Name: "http_request_duration_histogram_seconds",
+		Help: "The request durations histogram",
+		// Buckets: prometheus.DefBuckets,
+		Buckets: []float64{.01, .02, .03, .04, .05, .06, .07, .08, .09, .1},
 	},
 )
 
@@ -50,7 +51,7 @@ func (uc userController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	start = time.Now()
 
 	// Simulate request latency
-	time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+	time.Sleep(time.Duration(10+rand.Intn(30)) * time.Millisecond)
 
 	if r.URL.Path == "/users" {
 		switch r.Method {
