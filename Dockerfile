@@ -20,8 +20,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o web .
 
 # stage 2
 
-# FROM ubuntu:18.04
-FROM scratch
+FROM ubuntu:18.04
+# FROM scratch
 
 WORKDIR /app
 
