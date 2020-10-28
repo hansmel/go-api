@@ -10,7 +10,8 @@ import (
 )
 
 // UserFilename is the name of the file where the user data is stored
-var UserFilename = "/mnt/web-api/users.json"
+// var UserFilename = "/mnt/web-api/users.json"
+var UserFilename = "/users.json"
 
 // var UserFilename = "/Users/grey/dev/mnt/web-api/users.json"
 
