@@ -37,7 +37,8 @@ var httpRequestDurationsHistogram = promauto.NewHistogram(
 		Name: "http_request_duration_histogram_seconds",
 		Help: "The request durations histogram",
 		// Buckets: prometheus.DefBuckets,
-		Buckets: []float64{.01, .02, .03, .04, .05, .06, .07, .08, .09, .1},
+		// Buckets: []float64{.01, .02, .03, .04, .05, .06, .07, .08, .09, .1},
+		Buckets: []float64{.01, .02, .04, .08, .1, .2, .4, .8, 1, 2},
 	},
 )
 
